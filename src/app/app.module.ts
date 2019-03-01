@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TopicProposalComponent } from './topic-proposal/topic-proposal.component';
 import { ViewProposalsComponent } from './view-proposals/view-proposals.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {  MatTableModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { ViewProposalsComponent } from './view-proposals/view-proposals.componen
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NoopAnimationsModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
