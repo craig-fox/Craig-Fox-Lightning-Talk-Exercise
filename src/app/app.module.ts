@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { TopicProposalComponent } from './topic-proposal/topic-proposal.component';
 import { ViewProposalsComponent } from './view-proposals/view-proposals.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {  MatTableModule } from '@angular/material';
+import {  MatTableModule, MatButtonModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,8 @@ import {  MatTableModule } from '@angular/material';
     BrowserModule,
     AppRoutingModule,
     NoopAnimationsModule,
-    MatTableModule
+    MatTableModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
