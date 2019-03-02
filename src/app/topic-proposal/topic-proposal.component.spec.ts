@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TopicProposalComponent } from './topic-proposal.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import {  MatInputModule } from '@angular/material';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TopicProposalComponent', () => {
   let component: TopicProposalComponent;
@@ -8,7 +10,8 @@ describe('TopicProposalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TopicProposalComponent ]
+      declarations: [ TopicProposalComponent ],
+      imports: [ReactiveFormsModule, MatInputModule, NoopAnimationsModule]
     })
     .compileComponents();
   }));

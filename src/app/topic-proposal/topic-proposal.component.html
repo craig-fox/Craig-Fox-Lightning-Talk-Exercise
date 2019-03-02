@@ -1,3 +1,18 @@
-<p>
-  topic-proposal stub
-</p>
+<form [formGroup]="proposalForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Topic</mat-label>
+    <input type="text" matInput formControlName="topic" required>
+    <mat-hint>Enter a unique proposal topic (80 char max)</mat-hint>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Topic Description</mat-label>
+    <input type="text" matInput formControlName="topicDescription" required>
+    <mat-hint>Enter the proposal description (120 char max)</mat-hint>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label> Email Address</mat-label>
+    <input type="email" matInput formControlName="emailAddress" email required>
+    <mat-hint>Enter your email address (255 char max)</mat-hint>
+  </mat-form-field>
+  <button type="submit" color="accent" mat-raised-button [disabled]="!proposalForm.valid">Submit</button>
+</form>

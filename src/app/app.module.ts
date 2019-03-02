@@ -6,7 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { TopicProposalComponent } from './topic-proposal/topic-proposal.component';
 import { ViewProposalsComponent } from './view-proposals/view-proposals.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {  MatTableModule, MatButtonModule } from '@angular/material';
+import {  MatTableModule, MatButtonModule, MatInputModule } from '@angular/material';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,9 @@ import {  MatTableModule, MatButtonModule } from '@angular/material';
     AppRoutingModule,
     NoopAnimationsModule,
     MatTableModule,
-    MatButtonModule
+    MatButtonModule,
+    MatInputModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

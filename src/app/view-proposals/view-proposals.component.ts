@@ -9,7 +9,7 @@ const mockData = [{topic: 'Highlighting', description: 'How I coloured my enviro
 })
 export class ViewProposalsComponent implements OnInit {
   proposals = []
-  columnsToDisplay = ['topic', 'description', 'email'];
+  columnsToDisplay = ['topic', 'description'];
 
   constructor() {
     this.proposals.push(...mockData);
