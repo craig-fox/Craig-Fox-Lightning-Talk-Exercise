@@ -2,52 +2,50 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import {Moment} from 'moment';
+import { NextTalkDateService} from '../next-talk-date.service';
 
 class Submission {
   topic: string;
   topicDescription: string;
   emailAddress: string;
-  submissionTime: string;
-  talkDate: string;
-  static nextTalkDate(today: Moment): string {
-    let talk: Moment = today.clone();
-    const month: number = today.month();
-    const forward: number = month % 2 === 0 ? 1 : 2;
-    talk = talk.add(forward, 'month');
-    talk = talk.startOf('month');
-    const TUESDAY = 2;
-    const thisDay = talk.isoWeekday();
-    if ( thisDay <= TUESDAY ) {
-      talk = talk.isoWeekday(TUESDAY);
-    } else {
-      talk = talk.add(1, 'weeks').isoWeekday(TUESDAY);
-    }
-    return talk.format(moment.HTML5_FMT.DATE);
+  _submissionTime: string;
+  _talkDate: string;
+
+  set submissionTime(submission_time: string){
+    this._submissionTime = submission_time;
+  }
+
+  set talkDate(talk_date: string){
+    this._talkDate = talk_date;
   }
 
   constructor(topic: string, topicDescription: string, emailAddress: string) {
     this.topic = topic;
     this.topicDescription = topicDescription;
     this.emailAddress = emailAddress;
-    const now: Moment = moment();
-    this.submissionTime = now.format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
-    this.talkDate = Submission.nextTalkDate(now);
   }
 }
 
 @Component({
   selector: 'app-topic-proposal',
   templateUrl: './topic-proposal.component.html',
+  providers: [NextTalkDateService],
   styleUrls: ['./topic-proposal.component.css']
 })
 export class TopicProposalComponent implements OnInit {
   proposalForm: FormGroup;
+  nextTalkDateService: NextTalkDateService;
   onSubmit() {
     const formValue: any = this.proposalForm.value;
     const submission: Submission = new Submission(formValue['topic'], formValue['topicDescription'], formValue['emailAddress']);
+    const now: Moment = moment();
+    submission.submissionTime = now.format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
+    submission.talkDate = this.nextTalkDateService.nextTalkDate(now);
     console.warn('Payload', submission);
   }
-  constructor() {}
+  constructor(nextTalkDateService: NextTalkDateService) {
+    this.nextTalkDateService = nextTalkDateService;
+  }
 
   ngOnInit() {
     const topicValidators: any = [Validators.required, Validators.maxLength(80)];
