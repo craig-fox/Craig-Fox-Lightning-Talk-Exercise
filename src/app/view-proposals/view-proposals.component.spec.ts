@@ -1,18 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
 import {  MatTableModule } from '@angular/material';
 import { ViewProposalsComponent } from './view-proposals.component';
+import { ProposalService} from '../proposal.service';
+import { Proposal } from '../model/proposal';
 
 describe('ViewProposalsComponent', () => {
   let component: ViewProposalsComponent;
   let fixture: ComponentFixture<ViewProposalsComponent>;
-  const mockData = [{topic: 'Highlighting', description: 'How I coloured my environment', email: 'fluoro@rascal.com'},
-    {topic: 'Christmas', description: 'Now start promoting in January', email: 'sandpiper@pond.com'},
-    {topic: 'No Testing', description: 'The sad tale of No Test Stu', email: 'ricky@leejones.com'}]
-
+  let proposalServiceSpy: {get: jasmine.Spy};
   beforeEach(async(() => {
+    proposalServiceSpy = jasmine.createSpyObj('ProposalService', ['getProposals']);
     TestBed.configureTestingModule({
       declarations: [ ViewProposalsComponent ],
-      imports: [MatTableModule]
+      imports: [MatTableModule, HttpClientModule],
+      providers: [  { provide: ProposalService, useValue: proposalServiceSpy }]
     })
     .compileComponents();
   }));
@@ -27,6 +29,12 @@ describe('ViewProposalsComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should load data into table', () => {
-    expect(component.proposals).toEqual(mockData);
+    const expectedProposals: Proposal[] = [
+      new Proposal('Highlighting', 'How I coloured my environment'),
+      new Proposal('Christmas', 'Now start promoting in January'),
+      new Proposal('No Testing', 'The sad tale of No Test Stu')
+    ];
+    proposalServiceSpy.get.and.returnValue(expectedProposals);
+    expect(component.proposals).toBe(expectedProposals);
   });
 });

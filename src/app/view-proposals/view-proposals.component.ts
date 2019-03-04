@@ -1,21 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-const mockData = [{topic: 'Highlighting', description: 'How I coloured my environment', email: 'fluoro@rascal.com'},
-                  {topic: 'Christmas', description: 'Now start promoting in January', email: 'sandpiper@pond.com'},
-                  {topic: 'No Testing', description: 'The sad tale of No Test Stu', email: 'ricky@leejones.com'}]
+import {ProposalService} from '../proposal.service';
+import {Proposal} from '../model/proposal';
+
 @Component({
   selector: 'app-view-proposals',
   templateUrl: './view-proposals.component.html',
-  styleUrls: ['./view-proposals.component.css']
+  styleUrls: ['./view-proposals.component.css'],
+  providers: [ProposalService]
 })
 export class ViewProposalsComponent implements OnInit {
-  proposals = []
+  proposals = new Array<Proposal>();
+  proposalService: ProposalService;
   columnsToDisplay = ['topic', 'description'];
-
-  constructor() {
-    this.proposals.push(...mockData);
+  constructor(proposalService: ProposalService) {
+    this.proposalService = proposalService;
   }
-
   ngOnInit() {
+    this.proposalService.getProposals().subscribe(data => {
+      this.proposals = data.map(item => {
+        const proposal = new Proposal(item.topic, item.description);
+        return proposal;
+      });
+    });
   }
 
 }

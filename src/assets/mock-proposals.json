@@ -1,0 +1,24 @@
+{
+ "proposals":[
+    {
+      "topic": "Highlighting",
+      "description": "How I coloured my environment",
+      "email": "fluoro@rascal.com"
+    },
+    {
+      "topic": "Christmas",
+      "description": "Now start promoting in January",
+      "email": "sandpiper@pond.com"
+    },
+    {
+      "topic": "No Testing",
+      "description": "The sad tale of No Test Stu",
+      "email": "ricky@leejones.com"
+    },
+   {
+     "topic": "Nanoblogging",
+     "description": "Saying so much with a comma or two",
+     "email": "craig@fox.com"
+   }
+ ]
+}

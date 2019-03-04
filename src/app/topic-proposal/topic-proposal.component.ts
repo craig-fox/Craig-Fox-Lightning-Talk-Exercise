@@ -43,9 +43,7 @@ export class TopicProposalComponent implements OnInit {
     submission.talkDate = this.nextTalkDateService.nextTalkDate(now);
     console.warn('Payload', submission);
   }
-  constructor(nextTalkDateService: NextTalkDateService) {
-    this.nextTalkDateService = nextTalkDateService;
-  }
+  constructor(nextTalkDateService: NextTalkDateService) {}
 
   ngOnInit() {
     const topicValidators: any = [Validators.required, Validators.maxLength(80)];

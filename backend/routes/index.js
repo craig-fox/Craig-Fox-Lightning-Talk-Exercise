@@ -8,6 +8,7 @@ router.get('/proposals', (req, res) => {
     if(err){
       res.send(err);
     } else if (items.length > 0){
+      res.setHeader("Access-Control-Allow-Origin", "*");
       res.json(items);
     } else {
       res.send({"message":"No proposals present"})
