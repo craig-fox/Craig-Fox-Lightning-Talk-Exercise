@@ -1,14 +1,14 @@
 export class Proposal {
   _topic: string;
   _description: string;
-  _email: string;
+  _emailAddress: string;
   _submitted: string;
   _talkDate: string;
 
-  constructor(topic: string, description: string, email: string = '') {
+  constructor(topic: string, description: string, emailAddress: string = '') {
     this._topic = topic;
     this._description = description;
-    this._email = email;
+    this._emailAddress = emailAddress;
   }
   get topic(){
     return this._topic;
@@ -22,11 +22,11 @@ export class Proposal {
   set description(description: string){
     this._description = description;
   }
-  get email(){
-    return this._email;
+  get emailAddress(){
+    return this._emailAddress;
   }
-  set email(email: string){
-    this._email = email;
+  set emailAddress(emailAddress: string){
+    this._emailAddress = emailAddress;
   }
   get submitted(){
     return this._submitted;

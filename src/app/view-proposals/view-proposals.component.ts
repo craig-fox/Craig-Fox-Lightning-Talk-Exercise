@@ -21,7 +21,10 @@ export class ViewProposalsComponent implements OnInit {
         const proposal = new Proposal(item.topic, item.description);
         return proposal;
       });
-    });
+    },
+      err => {
+        console.log('Error in retrieving data', err);
+      });
   }
 
 }

@@ -18,21 +18,22 @@ router.get('/proposals', (req, res) => {
 
 /* Add a proposal */
 router.post('/proposals/add', (req, res) => {
-  console.log("Req", req.body)
-  const topic = req.body.topic;
-  const description = req.body.description;
-  const emailAddress = req.body.emailAddress;
-  const submitted = req.body.submitted;
-  const talkDate = req.body.talkDate;
-
+  const topic = req.body._topic;
   Proposal.countDocuments({topic}, (err, count) => {
     if(count === 0){
       let proposal = new Proposal();
-      proposal.set({"topic":topic,
-                    "description": description,
-                    "emailAddress": emailAddress,
-                    "submitted": submitted,
-                    "talkDate": talkDate})
+      const description = req.body._description;
+      const emailAddress = req.body._emailAddress;
+      const submitted = new Date(req.body._submitted);
+      const talkDate = new Date(req.body._talkDate);
+
+      const propObj = {"topic":topic,
+        "description": description,
+        "emailAddress": emailAddress,
+        "submitted": submitted,
+        "talkDate": talkDate};
+
+      proposal.set(propObj)
       proposal.save(err=>{
         if(err) {
           res.send(err)

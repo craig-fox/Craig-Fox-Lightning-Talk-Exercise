@@ -6,17 +6,24 @@ import { ProposalService} from '../proposal.service';
 import { Proposal } from '../model/proposal';
 
 describe('ViewProposalsComponent', () => {
+  const expectedProposals: Proposal[] = [
+    new Proposal('Highlighting', 'How I coloured my environment'),
+    new Proposal('Christmas', 'Now start promoting in January'),
+    new Proposal('No Testing', 'The sad tale of No Test Stu')
+  ];
   let component: ViewProposalsComponent;
   let fixture: ComponentFixture<ViewProposalsComponent>;
-  let proposalServiceSpy: {get: jasmine.Spy};
+  let proposalService: ProposalService;
+  let proposalServiceSpy: any;
   beforeEach(async(() => {
-    proposalServiceSpy = jasmine.createSpyObj('ProposalService', ['getProposals']);
     TestBed.configureTestingModule({
       declarations: [ ViewProposalsComponent ],
       imports: [MatTableModule, HttpClientModule],
-      providers: [  { provide: ProposalService, useValue: proposalServiceSpy }]
+      providers: [ ProposalService ]
     })
     .compileComponents();
+    proposalService = TestBed.get(ProposalService);
+    proposalServiceSpy = spyOn(proposalService, 'getProposals').and.returnValue(expectedProposals);
   }));
 
   beforeEach(() => {
@@ -29,12 +36,9 @@ describe('ViewProposalsComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should load data into table', () => {
-    const expectedProposals: Proposal[] = [
-      new Proposal('Highlighting', 'How I coloured my environment'),
-      new Proposal('Christmas', 'Now start promoting in January'),
-      new Proposal('No Testing', 'The sad tale of No Test Stu')
-    ];
-    proposalServiceSpy.get.and.returnValue(expectedProposals);
-    expect(component.proposals).toBe(expectedProposals);
+    component.proposalService.getProposals().subscribe(
+     items => expect(items).toBe(expectedProposals),
+      fail
+    );
   });
 });

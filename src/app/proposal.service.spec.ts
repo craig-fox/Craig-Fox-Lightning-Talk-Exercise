@@ -9,14 +9,14 @@ function asyncData<T>(data: T) {
 }
 
 describe('ProposalService', () => {
-  let httpClientSpy: {get: jasmine.Spy};
+  let httpClientSpy: {get: jasmine.Spy, post: jasmine.Spy};
   let proposalService: ProposalService;
-  beforeEach(() => TestBed.configureTestingModule({
-    providers: [ProposalService],
-    imports: [HttpClientModule]
-  }));
   beforeEach(() => {
-    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+    TestBed.configureTestingModule({
+      providers: [ProposalService],
+      imports: [HttpClientModule]
+    });
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post']);
     proposalService = new ProposalService(<any>httpClientSpy);
   })
 
@@ -35,6 +35,15 @@ describe('ProposalService', () => {
       proposals => expect(proposals).toEqual(expectedProposals, 'expected proposals'),
       fail
     );
+    expect(httpClientSpy.get.calls.count()).toBe(1, 'called once');
+  });
+  it('should save a proposal', () => {
+    const proposal = new Proposal('test', 'test topic', 'test@test.com');
+    httpClientSpy.get.and.returnValue(asyncData(proposal));
+    proposalService.saveProposal(proposal).subscribe(
+      item => expect(item).toEqual(proposal, 'should return the proposal'),
+      fail)
+    ;
     expect(httpClientSpy.get.calls.count()).toBe(1, 'called once');
   });
 });

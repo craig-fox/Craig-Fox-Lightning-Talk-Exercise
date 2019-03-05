@@ -7,12 +7,16 @@ import {Proposal} from './model/proposal';
   providedIn: 'root'
 })
 export class ProposalService {
-  mockProposalsUrl = 'assets/mock-proposals.json';
   proposalsUrl = 'http://localhost:3000/server/proposals';
+  saveProposalUrl = 'http://localhost:3000/server/proposals/add'
 
   constructor(private http: HttpClient) { }
 
   getProposals(): Observable<Proposal[]> {
     return this.http.get<Proposal[]>(this.proposalsUrl);
+  }
+
+  saveProposal(proposal: Proposal): Observable<Proposal> {
+    return this.http.post<Proposal>(this.saveProposalUrl, proposal);
   }
 }

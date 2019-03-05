@@ -3,47 +3,38 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import {Moment} from 'moment';
 import { NextTalkDateService} from '../next-talk-date.service';
-
-class Submission {
-  topic: string;
-  topicDescription: string;
-  emailAddress: string;
-  _submissionTime: string;
-  _talkDate: string;
-
-  set submissionTime(submission_time: string){
-    this._submissionTime = submission_time;
-  }
-
-  set talkDate(talk_date: string){
-    this._talkDate = talk_date;
-  }
-
-  constructor(topic: string, topicDescription: string, emailAddress: string) {
-    this.topic = topic;
-    this.topicDescription = topicDescription;
-    this.emailAddress = emailAddress;
-  }
-}
+import {Proposal} from '../model/proposal';
+import {ProposalService} from '../proposal.service';
 
 @Component({
   selector: 'app-topic-proposal',
   templateUrl: './topic-proposal.component.html',
-  providers: [NextTalkDateService],
+  providers: [NextTalkDateService, ProposalService],
   styleUrls: ['./topic-proposal.component.css']
 })
 export class TopicProposalComponent implements OnInit {
   proposalForm: FormGroup;
   nextTalkDateService: NextTalkDateService;
+  proposalService: ProposalService;
   onSubmit() {
     const formValue: any = this.proposalForm.value;
-    const submission: Submission = new Submission(formValue['topic'], formValue['topicDescription'], formValue['emailAddress']);
+    const proposal: Proposal = new Proposal(formValue['topic'], formValue['topicDescription'], formValue['emailAddress']);
     const now: Moment = moment();
-    submission.submissionTime = now.format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
-    submission.talkDate = this.nextTalkDateService.nextTalkDate(now);
-    console.warn('Payload', submission);
+    proposal.submitted = now.format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
+    proposal.talkDate = this.nextTalkDateService.nextTalkDate(now);
+    this.proposalService.saveProposal(proposal).subscribe(
+      item => {
+        console.log('Saved proposal', item);
+      },
+      err => {
+        console.log('Error in saving', err);
+      }
+    );
   }
-  constructor(nextTalkDateService: NextTalkDateService) {}
+  constructor(nextTalkDateService: NextTalkDateService, proposalService: ProposalService) {
+    this.nextTalkDateService = nextTalkDateService;
+    this.proposalService = proposalService;
+  }
 
   ngOnInit() {
     const topicValidators: any = [Validators.required, Validators.maxLength(80)];
