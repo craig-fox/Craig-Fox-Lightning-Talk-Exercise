@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
-const dbURI = 'mongodb://guest:guestpassword7@ds125892.mlab.com:25892/topic-proposal';
-mongoose.connect(dbURI, {useNewUrlParser:true})
+const dbURI = 'mongodb://localhost:27017/topic-proposal';
+mongoose.connect(dbURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 mongoose.connection.on('connected', () => {
   console.log("Connected to database topic-proposal")
 })
@@ -14,13 +17,16 @@ mongoose.connection.on('disconnected', () => {
 })
 
 const shutdown = (msg, callback) => {
-  mongoose.connection.close( ()=> {
-    console.log(`Shut down, ${msg}`)
-  })
-}
+  mongoose.connection.close(() => {
+    console.log(`Shut down, ${msg}`);
+    callback();
+  });
+};
 
 process.on('SIGINT', () => {
-  shutdown('app was terminated', () => {});
+  shutdown('app was terminated', () => {
+    process.exit(0);
+  });
 });
 
 require('./proposal')

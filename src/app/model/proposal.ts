@@ -2,14 +2,22 @@ export class Proposal {
   _topic: string;
   _description: string;
   _emailAddress: string;
-  _submitted: string;
-  _talkDate: string;
+  _submitted: string = "";
+  _talkDate: string = "";
 
-  constructor(topic: string, description: string, emailAddress: string = '') {
+  constructor(
+    topic: string,
+    description: string,
+    emailAddress: string = "",
+    submitted: string = "",
+    talkDate: string = ""
+) {
     this._topic = topic;
     this._description = description;
     this._emailAddress = emailAddress;
-  }
+    this._submitted = submitted;
+    this._talkDate = talkDate;
+}
   get topic(){
     return this._topic;
   }
@@ -35,7 +43,7 @@ export class Proposal {
     this._submitted = submitted;
   }
   get talkDate(){
-    return this._submitted;
+    return this._talkDate;
   }
   set talkDate(talkDate: string){
     this._talkDate = talkDate;

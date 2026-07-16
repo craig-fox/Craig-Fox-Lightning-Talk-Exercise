@@ -13,7 +13,7 @@ import {ProposalService} from '../proposal.service';
   styleUrls: ['./topic-proposal.component.css']
 })
 export class TopicProposalComponent implements OnInit {
-  proposalForm: FormGroup;
+  proposalForm!: FormGroup;
   nextTalkDateService: NextTalkDateService;
   proposalService: ProposalService;
   onSubmit() {
